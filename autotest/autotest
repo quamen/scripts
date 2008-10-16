@@ -1,0 +1,40 @@
+# require 'autotest/growl'
+module Autotest::Growl
+
+  Autotest.add_hook :ran_command do |at|
+    if at.results.empty? # break out gracefully if a test file throws an uncaught exception
+      growl( "Syntax error", "", '~/.autotest_images/fail.png')
+    else
+      output = format_input( at.results )
+      display_notification( output )
+    end
+  end
+
+  private
+
+  def self.growl title, msg, img, pri=0, stick="" 
+    system "growlnotify -n autotest --image #{img} -p #{pri} -m #{msg.inspect} #{title} #{stick}" 
+  end
+
+  # isolate the example, failure, pending line like "12 examples, 4 failures, 5 pending" 
+  # and remove color codes
+  def self.format_input( input )
+    output = input.detect{ |result| result.include? "example"}
+    output = remove_color_codes( output )
+  end
+
+  def self.display_notification( output )
+    examples, failures, pending = output.split(", ")
+    if failures.to_i > 0
+      growl( "Tests Failed", output, '~/.autotest_images/fail.png', 2 )
+    elsif pending.to_i > 0
+      growl( "Tests Pending", output, '~/.autotest_images/pending.png', 1 )
+    else
+      growl( "Tests Passed", output, '~/.autotest_images/pass.png', 0 )
+    end
+  end
+
+  def self.remove_color_codes( string )
+    string.match( /m(.+)\e/)[1]
+  end
+end
