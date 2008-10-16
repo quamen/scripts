@@ -7,11 +7,11 @@ mkdir -p ~/src
 cd ~/src
 
 echo "=> Downloading"
-curl -O http://mysql.mirrors.ilisys.com.au/Downloads/MySQL-5.0/mysql-5.0.51b.tar.gz
+curl -O http://mysql.he.net/Downloads/MySQL-5.0/mysql-5.0.45.tar.gz
 
 echo "=> Extracting"
-tar xzvf mysql-5.0.51b.tar.gz
-cd mysql-5.0.51b
+tar xzvf mysql-5.0.45.tar.gz
+cd mysql-5.0.45
 
 echo "=> Configuring"
 CC=gcc CFLAGS="-O3 -fno-omit-frame-pointer" CXX=gcc \

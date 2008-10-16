@@ -1,0 +1,8 @@
+For the mysql and postgresql install scripts you need to set your path properly.
+
+in: 
+  ~/.bash_login
+  
+add the following line:
+
+  export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/usr/local/pgsql/bin:$PATH"
